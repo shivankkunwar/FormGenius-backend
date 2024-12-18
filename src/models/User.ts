@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from 'mongoose';
-import { IUser, IUserMethods, UserModel } from '../types/user';
+import { IUser, IUserMethods} from '../types/user';
 import bcrypt from 'bcryptjs';
 
 
