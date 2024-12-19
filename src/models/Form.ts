@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
-import { IForm } from '../types/form';
 
-const questionSchema = new Schema({
+const QuestionSchema = new Schema({
   id: {
     type: String,
     required: true,
@@ -22,21 +21,38 @@ const questionSchema = new Schema({
   options: [String],
   rows: [String],
   columns: [String],
+  imageUrl: String,
 });
 
-const formSchema = new Schema<IForm>({
+const FormSchema = new Schema({
   title: {
     type: String,
     required: true,
   },
   description: String,
   headerImage: String,
-  questions: [questionSchema],
-  createdBy: String,
+  questions: [QuestionSchema],
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  shareableLink: {
+    type: String,
+    unique: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-export const Form = mongoose.model<IForm>('Form', formSchema);
+
+FormSchema.pre('save', function(next) {
+  if (!this.shareableLink) {
+    this.shareableLink = `form_${this._id}_${Date.now()}`;
+  }
+  next();
+});
+
+export const Form = mongoose.model('Form', FormSchema);

@@ -11,7 +11,7 @@ export const register = async (req: Request, res: Response) => {
     if (existingUser) {
       return res.status(400).json({ error: 'Email already exists' });
     }
-
+  
     const user = new User({ email, password, name });
     await user.save();
 
@@ -21,12 +21,13 @@ export const register = async (req: Request, res: Response) => {
 
     res.status(201).json({ user, token });
   } catch (error) {
-    res.status(400).json({ error: 'Error creating user' });
+    res.status(400).json({ error: 'Error creating user'+" "+error });
   }
 };
 
 export const login = async (req: Request, res: Response) => {
   try {
+   
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });

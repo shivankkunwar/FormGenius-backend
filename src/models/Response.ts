@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
-import { IFormResponse } from '../types/response';
 
-const responseSchema = new Schema<IFormResponse>({
+const ResponseSchema = new Schema({
   formId: {
     type: Schema.Types.ObjectId,
     ref: 'Form',
@@ -9,16 +8,14 @@ const responseSchema = new Schema<IFormResponse>({
   },
   answers: [{
     questionId: String,
-    answer: Schema.Types.Mixed,
+    questionTitle: String, 
+    answer: mongoose.Schema.Types.Mixed,
+    questionType: String,
   }],
-  submittedBy: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  },
   submittedAt: {
     type: Date,
     default: Date.now,
-  },
+  }
 });
 
-export const Response = mongoose.model<IFormResponse>('Response', responseSchema);
+export const Response = mongoose.model('Response', ResponseSchema);
