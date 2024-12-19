@@ -19,7 +19,9 @@ app.use(cors({
 }));
 app.use(express.json());
 
-
+app.get('/keep-alive', (req, res) => {
+  res.status(200).send('I am alive!');
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/forms', formRoutes);
 app.use('/api/responses', responseRoutes);
